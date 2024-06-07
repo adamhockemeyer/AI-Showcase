@@ -61,3 +61,25 @@ resource "azurerm_cognitive_deployment" "text-small" {
     type = "Standard"
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "settings" {
+  name                       = "DiagnosticsSettings"
+  target_resource_id         = azurerm_cognitive_account.ca.id
+  log_analytics_workspace_id = local.la_workspace_id 
+
+  enabled_log {
+    category = "Audit"
+  }
+
+  enabled_log {
+    category = "RequestResponse"
+  }
+
+  enabled_log {
+    category = "Trace"
+  }
+
+  metric {
+    category = "AllMetrics"
+  }
+}
