@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
       <div className="flex flex-col min-h-screen">
       <header className="bg-gray-900 text-white px-4 md:px-6 h-14 flex items-center">
-        <Link className="flex items-center justify-center" href="#">
+        <Link className="flex items-center justify-center" href="/">
         <BotIcon className="h-6 w-6" />
           <span className="p-2">AI Showcase</span>
         </Link>
@@ -36,12 +36,12 @@ export default function RootLayout({
         <div className="bg-gray-100 dark:bg-gray-950 hidden md:flex flex-col gap-2 text-gray-900 dark:text-white p-4">
         <nav className="flex flex-col gap-1">
             <Link
-              href="#"
+              href="/basic-chat"
               className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
               prefetch={false}
             >
               <SparkleIcon className="w-5 h-5" />
-              <span>Text Generation</span>
+              <span>Basic Chat</span>
             </Link>
             <Link
               href="#"
