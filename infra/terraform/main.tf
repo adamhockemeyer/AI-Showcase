@@ -5,6 +5,7 @@ provider "azurerm" {
 resource "azurerm_resource_group" "openai" {  
   name     = "${local.prefix}-ai-showcase-rg"  
   location = "eastus2"  
+  tags     = local.common_tags
 }  
   
 locals { 
@@ -15,7 +16,8 @@ locals {
   location                = "eastus2"
   la_workspace_id         = azurerm_log_analytics_workspace.log_analytics_workspace.id
   common_tags = { 
-    created_by = "Terraform" 
+    created_by = "Terraform",
+    project    = "AI Showcase"
   }
 }
 
@@ -23,4 +25,5 @@ resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
   name                = "${local.prefix}-log-analytics-workspace"
   location            = local.location
   resource_group_name = local.resource_group
+  tags                = local.common_tags
 }
