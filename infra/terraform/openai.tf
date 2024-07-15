@@ -4,6 +4,7 @@ resource "azurerm_cognitive_account" "ca" {
   resource_group_name = local.resource_group 
   kind                = "OpenAI"
   sku_name            = "S0"
+  tags                = local.common_tags
 }
 
 resource "azurerm_cognitive_deployment" "gpt35" {
