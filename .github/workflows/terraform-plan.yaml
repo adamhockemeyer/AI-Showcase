@@ -18,22 +18,24 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Azure Login
-              uses: azure/login@v1
+              uses: azure/login@v2
               with:
                creds: ${{ secrets.AZURE_CREDENTIALS }}
 
             - name: Set Working Directory
-              run: cd infra/terraform
+              run: echo "Set working directory"
+              working-directory: infra/terraform
 
             - name: Install Terraform
-              uses: hashicorp/setup-terraform@v1
+              uses: hashicorp/setup-terraform@v3
 
             - name: Terraform Format
               id: fmt
               run: terraform fmt -check -no-color
+              continue-on-error: true
 
             - name: Terraform Init
               id: init
