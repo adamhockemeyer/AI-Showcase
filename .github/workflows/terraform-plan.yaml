@@ -1,0 +1,64 @@
+name: Terraform Plan
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches:
+            - main
+        types:
+            - opened
+            - synchronize
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Azure Login
+              uses: azure/login@v1
+              with:
+               creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            - name: Set Working Directory
+              run: cd infra/terraform
+
+            - name: Install Terraform
+              uses: hashicorp/setup-terraform@v1
+
+            - name: Terraform Format
+              id: fmt
+              run: terraform fmt -check -no-color
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+
+            - name: Terraform Plan
+              id: plan
+              run: |
+                terraform plan -no-color
+              continue-on-error: true
+
+            - name: Comment PR
+              if: github.event_name == 'pull_request'
+              uses: actions/github-script@v3
+              with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outputs.stdout }}\`
+                    #### Terraform Initialization ⚙️\`${{ steps.init.outputs.stdout }}\`
+                    #### Terraform Plan 📖\`${{ steps.plan.outputs.stdout }}\``;
+                    github.issues.createComment({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: `## Terraform checks in directory '${{ github.workspace }}'\n` + output
+                    })
+
+                
