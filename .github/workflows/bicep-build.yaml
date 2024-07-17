@@ -22,6 +22,8 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                ref: ${{ github.head_ref }} # Attempts to check out the head ref if it exists (for PRs)
 
             - name: Set up Azure CLI
               uses: azure/login@v2
@@ -33,13 +35,16 @@ jobs:
                     az bicep build --file main.bicep
             
             - name: Commit main.json
-              working-directory: ./
+              working-directory: ${{ github.workspace }}
               run: |
-                git config --global user.name 'GitHub Actions'
-                git config --global user.email 'actions@github.com'
-                git add ./infra/bicep/main.json
-                git commit -m "Add generated main.json from Bicep build" || echo "No changes to commit"
-                git push --force
+                if [ -z "$(git status --porcelain)" ]; then
+                        echo "No changes to commit."
+                    else
+                        git checkout -b temp-branch || git checkout ${{ github.ref }} # Checkout a new branch or the current ref
+                        git add main.json
+                        git commit -m "Add generated main.json from Bicep build"
+                        git push origin HEAD:${{ github.head_ref }} -f # Force push to the head ref, adjust as necessary
+                    fi
 
             - name: Bicep What-if
               id: bicep
