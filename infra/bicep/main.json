@@ -1,0 +1,305 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.28.1.47646",
+      "templateHash": "4620229385860908395"
+    }
+  },
+  "parameters": {
+    "prefix": {
+      "type": "string",
+      "defaultValue": "[format('{0}-ai-showcase', uniqueString(resourceGroup().id))]"
+    },
+    "region": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "commonTags": {
+      "type": "object",
+      "defaultValue": {
+        "created_by": "bicep",
+        "project": "AI Showcase"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2023-09-01",
+      "name": "[format('{0}-loganalytics', parameters('prefix'))]",
+      "location": "[parameters('region')]",
+      "properties": {
+        "sku": {
+          "name": "PerGB2018"
+        },
+        "retentionInDays": 30
+      },
+      "tags": "[parameters('commonTags')]"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "openai",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "prefix": {
+            "value": "[parameters('prefix')]"
+          },
+          "region": {
+            "value": "[parameters('region')]"
+          },
+          "tags": {
+            "value": "[parameters('commonTags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.28.1.47646",
+              "templateHash": "7498845804281787307"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object"
+            },
+            "deployments": {
+              "type": "array",
+              "defaultValue": [
+                {
+                  "name": "gpt-35-turbo",
+                  "model": {
+                    "format": "OpenAI",
+                    "name": "gpt-35-turbo",
+                    "version": "0613"
+                  },
+                  "sku": {
+                    "name": "Standard",
+                    "capacity": 120
+                  }
+                },
+                {
+                  "name": "gpt-4o",
+                  "model": {
+                    "format": "OpenAI",
+                    "name": "gpt-4o",
+                    "version": "2024-05-13"
+                  },
+                  "sku": {
+                    "name": "Standard",
+                    "capacity": 120
+                  }
+                },
+                {
+                  "name": "text-embedding-large",
+                  "model": {
+                    "format": "OpenAI",
+                    "name": "text-embedding-3-large",
+                    "version": "1"
+                  },
+                  "sku": {
+                    "name": "Standard",
+                    "capacity": 120
+                  }
+                },
+                {
+                  "name": "text-embedding-small",
+                  "model": {
+                    "format": "OpenAI",
+                    "name": "text-embedding-3-small",
+                    "version": "1"
+                  },
+                  "sku": {
+                    "name": "Standard",
+                    "capacity": 120
+                  }
+                }
+              ]
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.CognitiveServices/accounts",
+              "apiVersion": "2024-04-01-preview",
+              "name": "[format('{0}-cognitive-account', parameters('prefix'))]",
+              "location": "[parameters('region')]",
+              "kind": "OpenAI",
+              "sku": {
+                "name": "S0"
+              },
+              "tags": "[parameters('tags')]"
+            },
+            {
+              "copy": {
+                "name": "deployment",
+                "count": "[length(parameters('deployments'))]"
+              },
+              "type": "Microsoft.CognitiveServices/accounts/deployments",
+              "apiVersion": "2024-04-01-preview",
+              "name": "[format('{0}/{1}', format('{0}-cognitive-account', parameters('prefix')), parameters('deployments')[copyIndex()].name)]",
+              "sku": {
+                "name": "[parameters('deployments')[copyIndex()].sku.name]",
+                "capacity": "[parameters('deployments')[copyIndex()].sku.capacity]"
+              },
+              "properties": {
+                "model": "[parameters('deployments')[copyIndex()].model]",
+                "raiPolicyName": "Microsoft.Default",
+                "versionUpgradeOption": "OnceNewDefaultVersionAvailable"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}-cognitive-account', parameters('prefix')))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "cognitiveServicesAccountName": {
+              "type": "string",
+              "value": "[format('{0}-cognitive-account', parameters('prefix'))]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "webapp",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "prefix": {
+            "value": "[parameters('prefix')]"
+          },
+          "location": {
+            "value": "[parameters('region')]"
+          },
+          "tags": {
+            "value": "[parameters('commonTags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.28.1.47646",
+              "templateHash": "1724222991486958234"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Web/staticSites",
+              "apiVersion": "2023-12-01",
+              "name": "[format('{0}-app', parameters('prefix'))]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+              },
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "tags": "[parameters('tags')]"
+            }
+          ],
+          "outputs": {
+            "identityPrincipalId": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/staticSites', format('{0}-app', parameters('prefix'))), '2023-12-01', 'full').identity.principalId]"
+            },
+            "staticWebAppUrl": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/staticSites', format('{0}-app', parameters('prefix'))), '2023-12-01').defaultHostname]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "webapp-openai-auth",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "webAppManagedIdentityName": {
+            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'webapp'), '2022-09-01').outputs.identityPrincipalId.value]"
+          },
+          "cognitiveServicesAccountName": {
+            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'openai'), '2022-09-01').outputs.cognitiveServicesAccountName.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.28.1.47646",
+              "templateHash": "5794821924348717641"
+            }
+          },
+          "parameters": {
+            "webAppManagedIdentityName": {
+              "type": "string"
+            },
+            "cognitiveServicesAccountName": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2022-04-01",
+              "scope": "[format('Microsoft.CognitiveServices/accounts/{0}', parameters('cognitiveServicesAccountName'))]",
+              "name": "[guid(resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServicesAccountName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('webAppManagedIdentityName')), subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'))]",
+              "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd')]",
+                "principalId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('webAppManagedIdentityName'))]",
+                "principalType": "ServicePrincipal"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'openai')]",
+        "[resourceId('Microsoft.Resources/deployments', 'webapp')]"
+      ]
+    }
+  ]
+}
