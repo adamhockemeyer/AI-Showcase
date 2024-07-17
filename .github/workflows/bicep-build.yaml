@@ -16,6 +16,9 @@ defaults:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
         env:
             #Create this Azure resource group if it doesn't exist
             RESOURCE_GROUP_NAME: ai-showcase-rg
