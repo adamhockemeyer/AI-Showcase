@@ -49,7 +49,7 @@ jobs:
           node-version: '18'
       - name: Install and build frontend
         run: |
-            cd /frontend
+            cd frontend
             npm install
             npm run build
       - name: Build And Deploy
