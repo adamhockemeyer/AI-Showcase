@@ -1,5 +1,8 @@
 param prefix string = '${substring(uniqueString(resourceGroup().id),0,4)}-ai-showcase'
 param region string = resourceGroup().location
+param webAppRepositoryUrl string = 'https://github.com/adamhockemeyer/AI-Showcase'
+@secure()
+param gitRepoToken string
 param commonTags object = {
   created_by: 'bicep'
   project: 'AI Showcase'
@@ -33,6 +36,9 @@ module webapp './webapp.bicep' = {
     prefix: prefix
     location: region
     tags: commonTags
+    repositoryUrl: webAppRepositoryUrl
+    branch: 'main'
+    repoToken: gitRepoToken
   }
 }
 
