@@ -38,7 +38,7 @@ jobs:
             - name: Bicep What-if
               id: bicep
               run: |
-                    az deployment group what-if --resource-group ${{env.RESOURCE_GROUP_NAME}} --template-file main.bicep --name ai-showcase --parameters gitRepoToken=${{secrets.GITHUB_TOKEN}} > whatif-output.txt
+                    az deployment group what-if --resource-group ${{env.RESOURCE_GROUP_NAME}} --template-file main.bicep --name ai-showcase > whatif-output.txt
                     echo "what_if_result<<EOF" >> $GITHUB_OUTPUT
                     cat whatif-output.txt >> $GITHUB_OUTPUT
                     echo "EOF" >> $GITHUB_OUTPUT

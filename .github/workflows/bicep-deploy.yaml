@@ -30,4 +30,3 @@ jobs:
                     az deployment group create \
                         --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
                         --template-file main.bicep
-                        --parameters gitRepoToken=${{secrets.GITHUB_TOKEN}}
