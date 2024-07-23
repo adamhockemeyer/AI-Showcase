@@ -22,7 +22,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_LOCATION: "/frontend" # location of your client code
+  APP_LOCATION: "./frontend" # location of your client code
   #API_LOCATION: "api" # location of your api source code - optional
   APP_ARTIFACT_LOCATION: "/.next/standalone" # location of client code build output
   SKIP_APP_BUILD: true # skips the oryx build process and uses the app_location as the artifact location
