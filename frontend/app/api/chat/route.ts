@@ -18,5 +18,5 @@ export async function POST(req: Request) {
         messages: convertToCoreMessages(messages),
     });
 
-    return result.toAIStreamResponse();
+    return result.toAIStreamResponse({ headers: { 'x-vercel-ai-data-stream': 'v1' } });
 }
