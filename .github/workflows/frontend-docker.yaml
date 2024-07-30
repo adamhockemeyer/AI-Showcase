@@ -36,4 +36,4 @@ jobs:
               with:
                 context: ./frontend
                 push: true
-                tags: ${{github.repository}}/frontend:latest
+                tags: ai-showcase/frontend:latest
