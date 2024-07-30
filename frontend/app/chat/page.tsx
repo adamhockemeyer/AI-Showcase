@@ -1,56 +1,25 @@
 'use client';
 
-import { useState } from 'react';
-import { Message, continueConversation } from "@/actions/openai";
-import { readStreamableValue } from 'ai/rsc';
+import { useChat } from 'ai/react';
 
-// Allow streaming responses up to 30 seconds
-export const maxDuration = 30;
-
-export default function Home() {
-    const [conversation, setConversation] = useState<Message[]>([]);
-    const [input, setInput] = useState<string>('');
+export default function Page() {
+    const { messages, input, handleInputChange, handleSubmit } = useChat({
+        keepLastMessageOnError: true,
+    });
 
     return (
-        <div>
-            <div>
-                {conversation.map((message, index) => (
-                    <div key={index}>
-                        {message.role}: {message.content}
-                    </div>
-                ))}
-            </div>
+        <>
+            {messages.map(message => (
+                <div key={message.id}>
+                    {message.role === 'user' ? 'User: ' : 'AI: '}
+                    {message.content}
+                </div>
+            ))}
 
-            <div>
-                <input
-                    type="text"
-                    value={input}
-                    onChange={event => {
-                        setInput(event.target.value);
-                    }}
-                />
-                <button
-                    onClick={async () => {
-                        const { messages, newMessage } = await continueConversation([
-                            ...conversation,
-                            { role: 'user', content: input },
-                        ]);
-
-                        let textContent = '';
-
-                        for await (const delta of readStreamableValue(newMessage)) {
-                            textContent = `${textContent}${delta}`;
-
-                            setConversation([
-                                ...messages,
-                                { role: 'assistant', content: textContent },
-                            ]);
-                        }
-                    }}
-                >
-                    Send Message
-                </button>
-            </div>
-        </div>
+            <form onSubmit={handleSubmit}>
+                <input name="prompt" value={input} onChange={handleInputChange} />
+                <button type="submit">Submit</button>
+            </form>
+        </>
     );
 }
