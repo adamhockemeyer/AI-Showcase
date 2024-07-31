@@ -1,6 +1,4 @@
-param prefix string
-param region string
-param tags object
+param cognitiveServicesAccountName string
 // Models to deploy
 param deployments array = [
   {
@@ -53,19 +51,12 @@ param deployments array = [
   }
 ]
 
-resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-preview' = {
-  name: '${prefix}-ca'
-  location: region
-  kind: 'OpenAI'
-  properties: {}
-  sku: {
-    name: 'S0'
-  }
-  tags: tags
+resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' existing = {
+  name: cognitiveServicesAccountName
 }
 
 @batchSize(1)
-resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2024-04-01-preview' = [
+resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = [
   for deployment in deployments: {
     parent: cognitiveServicesAccount
     name: deployment.name
@@ -80,5 +71,3 @@ resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2024-04-01
     }
   }
 ]
-
-output cognitiveServicesAccountName string = cognitiveServicesAccount.name

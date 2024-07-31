@@ -18,28 +18,84 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   tags: commonTags
 }
 
+resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
+  name: '${prefix}-ca'
+  location: region
+  kind: 'OpenAI'
+  properties: {}
+  sku: {
+    name: 'S0'
+  }
+  tags: commonTags
+}
+
+
 module openai './openai.bicep' = {
   name: 'openai'
   params: {
-    prefix: prefix
-    region: region
+    cognitiveServicesAccountName: cognitiveServicesAccount.name
+  }
+}
+
+module containerAppsEnvironment './container-app-environment.bicep' = {
+  name: 'container-app-environment'
+  params: {
+    containerAppsName: prefix
+    workspaceResourceName: logAnalytics.name
     tags: commonTags
   }
 }
 
-module webapp './webapp.bicep' = {
-  name: 'webapp'
+
+module frontendApp 'container-app.bicep' = {
+  name: 'frontend-container-app'
+  dependsOn: [
+    openai
+  ]
   params: {
-    prefix: prefix
-    location: region
+    name: 'frontend'
     tags: commonTags
+    managedEnvironmentId: containerAppsEnvironment.outputs.containerAppsEnvironmentResourceId
+    containerImage: 'ghcr.io/adamhockemeyer/ai-showcase-frontend:adam-dev'
+    containerName: 'frontend'
+    containerTargetPort: 3000
+    containerMinReplicas: 1
+    containerMaxRepliacs: 3
+    secrets: [
+      {
+        name: 'AZURE_OPENAI_BASE_URL'
+        value: '${cognitiveServicesAccount.properties.endpoint}}openai/deployments/'
+      }
+      {
+        name: 'AZURE_OPENAI_API_KEY'
+        value: cognitiveServicesAccount.listKeys().key1
+      }
+      {
+        name: 'AZURE_OPENAI_DEPLOYMENT'
+        value: 'gpt4-o'
+      }
+    ]
+    containerEnvironmentVariables: [
+      {
+        name: 'AZURE_OPENAI_BASE_URL'
+        secretRef: 'AZURE_OPENAI_BASE_URL'
+      }
+      {
+        name: 'AZURE_OPENAI_API_KEY'
+        secretRef: 'AZURE_OPENAI_API_KEY'
+      }
+      {
+        name: 'AZURE_OPENAI_DEPLOYMENT'
+        secretRef: 'AZURE_OPENAI_DEPLOYMENT'
+      }
+    ]
   }
 }
 
 module webapp_openai_auth './auth.bicep' = {
   name: 'webapp-openai-auth'
   params: {
-    webAppManagedIdentityPrincipalId: webapp.outputs.identityPrincipalId
-    cognitiveServicesAccountName: openai.outputs.cognitiveServicesAccountName
+    webAppManagedIdentityPrincipalId: frontendApp.outputs.principalId
+    cognitiveServicesAccountName: cognitiveServicesAccount.name
   }
 }
