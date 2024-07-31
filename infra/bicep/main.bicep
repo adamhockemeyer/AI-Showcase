@@ -63,15 +63,15 @@ module frontendApp 'container-app.bicep' = {
     containerMaxRepliacs: 3
     secrets: [
       {
-        name: 'AZURE_OPENAI_BASE_URL'
+        name: 'azure-openai-base-url'
         value: '${cognitiveServicesAccount.properties.endpoint}}openai/deployments/'
       }
       {
-        name: 'AZURE_OPENAI_API_KEY'
+        name: 'azure-openai-api-key'
         value: cognitiveServicesAccount.listKeys().key1
       }
       {
-        name: 'AZURE_OPENAI_DEPLOYMENT'
+        name: 'azure-openai-deployment'
         value: 'gpt4-o'
       }
     ]
