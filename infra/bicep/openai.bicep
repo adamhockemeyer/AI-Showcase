@@ -49,6 +49,18 @@ param deployments array = [
       capacity: 20
     }
   }
+  {
+    name: 'dall-e-3'
+    model: {
+      format: 'OpenAI'
+      name: 'dall-e-3'
+      version: '3.0'
+    }
+    sku: {
+      name: 'Standard'
+      capacity: 2
+    }
+  }
 ]
 
 resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' existing = {

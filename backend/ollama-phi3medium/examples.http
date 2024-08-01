@@ -1,0 +1,9 @@
+POST http://localhost:11434/api/generate HTTP/1.1
+content-type: application/json
+
+{
+  "model": "phi3:medium",
+  "prompt": "Instruct: give a short definition of AI.\nOutput:",
+  "format": "json",
+  "stream": false
+}
