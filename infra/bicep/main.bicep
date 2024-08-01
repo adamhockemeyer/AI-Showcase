@@ -19,16 +19,20 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
 }
 
 resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
-  name: '${prefix}-ca'
+  name: '${prefix}-oai'
   location: region
   kind: 'OpenAI'
-  properties: {}
+  properties: {
+    customSubDomainName: '${prefix}-oai'
+  }
   sku: {
     name: 'S0'
   }
   tags: commonTags
+  identity: {
+    type: 'SystemAssigned'
+  }
 }
-
 
 module openai './openai.bicep' = {
   name: 'openai'
@@ -46,7 +50,6 @@ module containerAppsEnvironment './container-app-environment.bicep' = {
   }
 }
 
-
 module frontendApp 'container-app.bicep' = {
   name: 'frontend-container-app'
   dependsOn: [
@@ -59,12 +62,12 @@ module frontendApp 'container-app.bicep' = {
     containerImage: 'ghcr.io/adamhockemeyer/ai-showcase-frontend:adam-dev'
     containerName: 'frontend'
     containerTargetPort: 3000
-    containerMinReplicas: 1
+    containerMinReplicas: 0
     containerMaxRepliacs: 3
     secrets: [
       {
         name: 'azure-openai-base-url'
-        value: '${cognitiveServicesAccount.properties.endpoint}}openai/deployments/'
+        value: '${cognitiveServicesAccount.properties.endpoint}openai/deployments'
       }
       {
         name: 'azure-openai-api-key'
@@ -72,21 +75,21 @@ module frontendApp 'container-app.bicep' = {
       }
       {
         name: 'azure-openai-deployment'
-        value: 'gpt4-o'
+        value: 'gpt-4o'
       }
     ]
     containerEnvironmentVariables: [
       {
         name: 'AZURE_OPENAI_BASE_URL'
-        secretRef: 'AZURE_OPENAI_BASE_URL'
+        secretRef: 'azure-openai-base-url'
       }
       {
         name: 'AZURE_OPENAI_API_KEY'
-        secretRef: 'AZURE_OPENAI_API_KEY'
+        secretRef: 'azure-openai-api-key'
       }
       {
         name: 'AZURE_OPENAI_DEPLOYMENT'
-        secretRef: 'AZURE_OPENAI_DEPLOYMENT'
+        secretRef: 'azure-openai-deployment'
       }
     ]
   }
