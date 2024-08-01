@@ -1,4 +1,4 @@
-name: Frontend Docker Build
+name: Phi3 Docker Build
 
 on:
     push:
