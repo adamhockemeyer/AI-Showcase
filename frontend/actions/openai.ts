@@ -1,58 +1,17 @@
 'use server';
 
 import { streamText } from 'ai';
-//import { openai } from '@ai-sdk/openai';
-//import { azure } from '@ai-sdk/azure';
-import { createAzure } from '@ai-sdk/azure';
+import { AzureOpenAI } from "openai";
+import { azure, createAzure } from '@ai-sdk/azure';
 import { createStreamableValue } from 'ai/rsc';
 
-
-export interface Message {
-    role: 'user' | 'assistant';
-    content: string;
-}
-
-export async function continueConversation(history: Message[]) {
-    'use server';
-
-    const azure = createAzure({
-        baseURL: process.env.AZURE_OPENAI_BASE_URL,
-        apiKey: process.env.AZURE_OPENAI_API_KEY,
-    });
-
-
-    const stream = createStreamableValue();
-
-    (async () => {
-        const { textStream } = await streamText({
-            model: azure(process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4o'),
-            system:
-                "You are a dude that doesn't drop character until the DVD commentary.",
-            messages: history,
-        });
-
-        for await (const text of textStream) {
-            stream.update(text);
-        }
-
-        stream.done();
-    })();
-
-    return {
-        messages: history,
-        newMessage: stream.value,
-    };
-}
-
-
-
 export async function generate(input: string) {
-       'use server';
+    'use server';
 
     const stream = createStreamableValue('');
 
     const azure = createAzure({
-        baseURL: process.env.AZURE_OPENAI_BASE_URL,
+        baseURL: `${process.env.AZURE_OPENAI_BASE_URL}openai/deployments/`,
         apiKey: process.env.AZURE_OPENAI_API_KEY,
     });
 
@@ -74,4 +33,21 @@ export async function generate(input: string) {
     })();
 
     return { output: stream.value };
+}
+
+export async function generateImage(prompt: string) {
+    // The number of images to generate
+    const n = 1;
+    const size = "1024x1024";
+
+    const deployment = "dall-e-3";
+    const apiVersion = "2024-04-01-preview";
+
+    const client = new AzureOpenAI({ endpoint: process.env.AZURE_OPENAI_BASE_URL, apiKey: process.env.AZURE_OPENAI_API_KEY, deployment, apiVersion });
+
+    console.log(client);
+
+    const results = await client.images.generate({ prompt, model: "", n, size });
+    return results.data;
+
 }

@@ -17,116 +17,116 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      
+
       <body className={inter.className}>
-      <div className="flex flex-col min-h-screen">
-      <header className="bg-gray-900 text-white px-4 md:px-6 h-14 flex items-center">
-        <Link className="flex items-center justify-center" href="/">
-        <BotIcon className="h-6 w-6" />
-          <span className="p-2">AI Showcase</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link href="https://github.com/adamhockemeyer/AI-Showcase" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            <GithubIcon className="h-6 w-6" />
-            <span className="sr-only">GitHub</span>
-          </Link>
-        </nav>
-      </header>
-      <div className="flex-1 flex">
-        <div className="bg-gray-100 dark:bg-gray-950 hidden md:flex flex-col gap-2 text-gray-900 dark:text-white p-4">
-        <nav className="flex flex-col gap-1">
-            <Link
-              href="/basic-chat"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <SparkleIcon className="w-5 h-5" />
-              <span>Basic Chat</span>
+        <div className="flex flex-col min-h-screen">
+          <header className="bg-gray-900 text-white px-4 md:px-6 h-14 flex items-center">
+            <Link className="flex items-center justify-center" href="/">
+              <BotIcon className="h-6 w-6" />
+              <span className="p-2">AI Showcase</span>
             </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <ImageIcon className="w-5 h-5" />
-              <span>Image Generation</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <CodeIcon className="w-5 h-5" />
-              <span>Code Generation</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <ImportIcon className="w-5 h-5" />
-              <span>Translation</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <ViewIcon className="w-5 h-5" />
-              <span>Summarization</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <WorkflowIcon className="w-5 h-5" />
-              <span>Prompt Flow</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <ShellIcon className="w-5 h-5" />
-              <span>Semantic Kernel</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <ContrastIcon className="w-5 h-5" />
-              <span>Model Comparison</span>
-            </Link>
-          </nav>
-          <hr className="border-gray-300 dark:border-gray-700 my-4" />
-          <h4 className="text-sm font-semibold">Use Cases</h4>
-          <nav className="flex flex-col gap-1">
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <FileIcon className="w-5 h-5" />
-              <span>HR Documents</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              prefetch={false}
-            >
-              <PowerIcon className="w-5 h-5" />
-              <span>Help Desk Assistant</span>
-            </Link>
-          </nav>
+            <nav className="ml-auto flex gap-4 sm:gap-6">
+              <Link href="https://github.com/adamhockemeyer/AI-Showcase" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                <GithubIcon className="h-6 w-6" />
+                <span className="sr-only">GitHub</span>
+              </Link>
+            </nav>
+          </header>
+          <div className="flex-1 flex">
+            <div className="bg-gray-100 dark:bg-gray-950 hidden md:flex flex-col gap-2 text-gray-900 dark:text-white p-4">
+              <nav className="flex flex-col gap-1">
+                <Link
+                  href="/basic-chat"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <SparkleIcon className="w-5 h-5" />
+                  <span>Basic Chat</span>
+                </Link>
+                <Link
+                  href="/image-generation"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <ImageIcon className="w-5 h-5" />
+                  <span>Image Generation</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <CodeIcon className="w-5 h-5" />
+                  <span>Code Generation</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <ImportIcon className="w-5 h-5" />
+                  <span>Translation</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <ViewIcon className="w-5 h-5" />
+                  <span>Summarization</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <WorkflowIcon className="w-5 h-5" />
+                  <span>Prompt Flow</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <ShellIcon className="w-5 h-5" />
+                  <span>Semantic Kernel</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <ContrastIcon className="w-5 h-5" />
+                  <span>Model Comparison</span>
+                </Link>
+              </nav>
+              <hr className="border-gray-300 dark:border-gray-700 my-4" />
+              <h4 className="text-sm font-semibold">Use Cases</h4>
+              <nav className="flex flex-col gap-1">
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <FileIcon className="w-5 h-5" />
+                  <span>HR Documents</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <PowerIcon className="w-5 h-5" />
+                  <span>Help Desk Assistant</span>
+                </Link>
+              </nav>
+            </div>
+            <main className="flex-1 p-6 md:p-10">
+              {children}
+            </main>
+          </div>
         </div>
-        <main className="flex-1 p-6 md:p-10">
-          {children}
-        </main>
-      </div>
-    </div>
-    </body>
+      </body>
     </html>
   );
 }
