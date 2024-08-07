@@ -67,7 +67,7 @@ module frontendApp 'container-app.bicep' = {
     secrets: [
       {
         name: 'azure-openai-base-url'
-        value: '${cognitiveServicesAccount.properties.endpoint}openai/deployments'
+        value: cognitiveServicesAccount.properties.endpoint
       }
       {
         name: 'azure-openai-api-key'
@@ -94,6 +94,8 @@ module frontendApp 'container-app.bicep' = {
     ]
   }
 }
+
+output frontendUrl string = frontendApp.outputs.fqdn
 
 module webapp_openai_auth './auth.bicep' = {
   name: 'webapp-openai-auth'
