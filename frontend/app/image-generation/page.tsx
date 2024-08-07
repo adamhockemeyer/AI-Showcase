@@ -32,7 +32,7 @@ export default function Component() {
 
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-fit">
             <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-primary to-secondary">
                 <div className="max-w-2xl px-4 sm:px-6 lg:px-8 py-12 text-center">
                     <h1 className="text-4xl font-bold text-primary-foreground mb-4">AI Image Generator</h1>

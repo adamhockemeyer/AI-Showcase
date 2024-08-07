@@ -9,31 +9,31 @@ export default function Home() {
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Basic Chat</CardTitle>
-          <SparkleIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <SparkleIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
           <p>Generate human-like text on any topic. Ideal for content creation, story writing, and more.</p>
           <div className="mt-4">
-            <Link href='/basic-chat'><Button>Try Demo</Button></Link>
+            <Link href='/basic-chat'><Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button></Link>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Image Generation</CardTitle>
-          <ImageIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <ImageIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
           <p>Create unique, high-quality images from text descriptions. Unleash your creativity.</p>
           <div className="mt-4">
-            <Link href='/image-generation'><Button>Try Demo</Button></Link>
+            <Link href='/image-generation'><Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button></Link>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Code Generation</CardTitle>
-          <CodeIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <CodeIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
           <p>
@@ -41,43 +41,43 @@ export default function Home() {
             descriptions.
           </p>
           <div className="mt-4">
-            <Button>Try Demo</Button>
+            <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Translation</CardTitle>
-          <LanguagesIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <LanguagesIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
           <p>Translate text between multiple languages with high accuracy and natural-sounding output.</p>
           <div className="mt-4">
-            <Button>Try Demo</Button>
+            <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Summarization</CardTitle>
-          <ViewIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <ViewIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
           <p>Quickly summarize long articles, documents, or conversations into concise, key points.</p>
           <div className="mt-4">
-            <Button>Try Demo</Button>
+            <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Anomaly Detection</CardTitle>
-          <BadgeAlertIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <BadgeAlertIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
           <p>Identify unusual patterns or outliers in your data to uncover potential issues or opportunities.</p>
           <div className="mt-4">
-            <Button>Try Demo</Button>
+            <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
       </Card>
