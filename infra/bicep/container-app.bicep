@@ -11,6 +11,7 @@ param containerResourcesCPU string = '2'
 param containerResourcesMemory string = '4Gi'
 param containerMinReplicas int = 1
 param containerMaxRepliacs int = 3
+param workloadProfileName string = 'Consumption'
 
 param currentUtc string = utcNow()
 
@@ -22,6 +23,7 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
   tags: tags
   properties: {
     managedEnvironmentId: managedEnvironmentId
+    workloadProfileName: workloadProfileName
     configuration: {
       secrets: secrets
       //activeRevisionsMode: 'Multiple'

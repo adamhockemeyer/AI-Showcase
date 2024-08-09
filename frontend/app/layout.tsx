@@ -33,11 +33,11 @@ export default function RootLayout({
             </nav>
           </header>
           <div className="flex-1 flex">
-            <div className="bg-gray-100 dark:bg-gray-950 hidden md:flex flex-col gap-2 text-gray-900 dark:text-white p-4">
+            <div className="bg-gray-950  hidden md:flex flex-col gap-2 text-white p-4">
               <nav className="flex flex-col gap-1">
                 <Link
                   href="/basic-chat"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800  transition-colors"
                   prefetch={false}
                 >
                   <SparkleIcon className="w-5 h-5" />
@@ -45,7 +45,7 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="/image-generation"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ImageIcon className="w-5 h-5" />
@@ -53,7 +53,7 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <CodeIcon className="w-5 h-5" />
@@ -61,7 +61,7 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ImportIcon className="w-5 h-5" />
@@ -69,7 +69,7 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ViewIcon className="w-5 h-5" />
@@ -77,7 +77,7 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <WorkflowIcon className="w-5 h-5" />
@@ -85,27 +85,27 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ShellIcon className="w-5 h-5" />
                   <span>Semantic Kernel</span>
                 </Link>
                 <Link
-                  href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  href="/model-comparison"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ContrastIcon className="w-5 h-5" />
                   <span>Model Comparison</span>
                 </Link>
               </nav>
-              <hr className="border-gray-300 dark:border-gray-700 my-4" />
+              <hr className="border-gray-700 my-4" />
               <h4 className="text-sm font-semibold">Use Cases</h4>
               <nav className="flex flex-col gap-1">
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <FileIcon className="w-5 h-5" />
@@ -113,7 +113,7 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="#"
-                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <PowerIcon className="w-5 h-5" />
