@@ -50,7 +50,7 @@ export default function Component() {
                             }}
                             type="text"
                             placeholder="Enter your image search question"
-                            className="bg-card text-card-foreground rounded-full py-3 px-5 pr-16 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="bg-card text-card-foreground rounded-full py-3 px-5 pr-16 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent shadow-md"
                         />
                         <button
                             className="absolute top-1/2 right-3 transform -translate-y-1/2 bg-primary text-primary-foreground rounded-full p-2 hover:bg-primary-hover transition-colors"

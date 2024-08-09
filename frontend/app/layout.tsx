@@ -92,7 +92,7 @@ export default function RootLayout({
                   <span>Semantic Kernel</span>
                 </Link>
                 <Link
-                  href="#"
+                  href="/model-comparison"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >

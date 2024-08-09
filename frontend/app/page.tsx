@@ -71,13 +71,13 @@ export default function Home() {
       </Card>
       <Card>
         <CardHeader className="flex items-center justify-between">
-          <CardTitle>Anomaly Detection</CardTitle>
+          <CardTitle>Model Comparison</CardTitle>
           <BadgeAlertIcon className="w-6 h-6 text-gray-600" />
         </CardHeader>
         <CardContent>
-          <p>Identify unusual patterns or outliers in your data to uncover potential issues or opportunities.</p>
+          <p>Compare various LLM models output to questions.</p>
           <div className="mt-4">
-            <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
+            <Link href='/model-comparison'><Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button></Link>
           </div>
         </CardContent>
       </Card>

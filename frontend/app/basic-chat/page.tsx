@@ -2,16 +2,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import { SVGProps, useState } from "react"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
-import { Slider } from "@/components/ui/slider"
-import { Input } from "@/components/ui/input"
-import { Switch } from "@/components/ui/switch"
 import { generate } from "@/actions/openai"
 import { readStreamableValue } from 'ai/rsc';
+import ReactMarkdown from 'react-markdown';
 
 // Force the page to be dynamic and allow streaming responses up to 30 seconds
 export const dynamic = 'force-dynamic';
@@ -91,7 +85,9 @@ export default function Component() {
                       <AvatarFallback>U</AvatarFallback>
                     </Avatar>
                     <div className="grid gap-1">
-                      <div className="bg-gray-100 dark:bg-gray-300 rounded-lg px-4 py-2 text-sm">{chat.user}</div>
+                      <div className="bg-gray-100 dark:bg-gray-300 rounded-lg px-4 py-2 text-sm">
+                        <ReactMarkdown>{chat.user}</ReactMarkdown>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-start gap-4 justify-end p-6">
@@ -101,7 +97,7 @@ export default function Component() {
                     </Avatar>
                     <div className="grid gap-1">
                       <div className="bg-gray-100 dark:bg-gray-300 rounded-lg px-4 py-2 text-sm">
-                        {chat.bot}
+                        <ReactMarkdown>{chat.bot}</ReactMarkdown>
                       </div>
                     </div>
                   </div>
@@ -122,7 +118,7 @@ export default function Component() {
               }}
               type="text"
               placeholder="Enter your question"
-              className="bg-card text-card-foreground rounded-full py-3 px-5 pr-16 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="bg-card text-card-foreground rounded-full py-3 px-5 pr-16 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent shadow-md"
             />
             <button
               className="absolute top-1/2 right-3 transform -translate-y-1/2 bg-primary text-primary-foreground rounded-full p-2 hover:bg-primary-hover transition-colors"

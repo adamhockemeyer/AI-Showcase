@@ -50,19 +50,38 @@ module containerAppsEnvironment './container-app-environment.bicep' = {
   }
 }
 
+module phi3mediumApp 'container-app.bicep' = {
+  name: 'phi3medium-container-app'
+  params: {
+    name: 'phi3medium'
+    tags: commonTags
+    managedEnvironmentId: containerAppsEnvironment.outputs.containerAppsEnvironmentResourceId
+    workloadProfileName: containerAppsEnvironment.outputs.dedicatedD4WorkloadProfileName
+    containerImage: 'ghcr.io/adamhockemeyer/ai-showcase-phi3medium:main'
+    containerName: 'phi3medium'
+    containerTargetPort: 11434
+    containerMinReplicas: 1
+    containerMaxRepliacs: 3
+    containerResourcesCPU: '4'
+    containerResourcesMemory: '16Gi'
+  }
+}
+
 module frontendApp 'container-app.bicep' = {
   name: 'frontend-container-app'
   dependsOn: [
     openai
+    phi3mediumApp
   ]
   params: {
     name: 'frontend'
     tags: commonTags
     managedEnvironmentId: containerAppsEnvironment.outputs.containerAppsEnvironmentResourceId
+    workloadProfileName: containerAppsEnvironment.outputs.consumptionWorkloadProfileName
     containerImage: 'ghcr.io/adamhockemeyer/ai-showcase-frontend:adam-dev'
     containerName: 'frontend'
     containerTargetPort: 3000
-    containerMinReplicas: 0
+    containerMinReplicas: 1
     containerMaxRepliacs: 3
     secrets: [
       {
@@ -77,6 +96,10 @@ module frontendApp 'container-app.bicep' = {
         name: 'azure-openai-deployment'
         value: 'gpt-4o'
       }
+      {
+        name: 'ollama-phi3medium-url'
+        value: phi3mediumApp.outputs.fqdn
+      }
     ]
     containerEnvironmentVariables: [
       {
@@ -90,6 +113,10 @@ module frontendApp 'container-app.bicep' = {
       {
         name: 'AZURE_OPENAI_DEPLOYMENT'
         secretRef: 'azure-openai-deployment'
+      }
+      {
+        name: 'OLLAMA_PHI3MEDIUM_URL'
+        secretRef: 'ollama-phi3medium-url'
       }
     ]
   }
