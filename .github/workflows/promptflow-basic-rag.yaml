@@ -30,11 +30,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install PromptFlow dependencies
-        run: pip install -r ./backend/promptflow-basic-rag/requirements.txt
+    #   - name: Install PromptFlow dependencies
+    #     run: pip install -r ./backend/promptflow-basic-rag/requirements.txt
 
-      - name: Build PromptFlow
-        run: pf flow build --source ./backend/promptflow-basic-rag --output ./backend/promptflow-basic-rag/docker --format docker
+    #   - name: Build PromptFlow
+    #     run: pf flow build --source ./backend/promptflow-basic-rag --output ./backend/promptflow-basic-rag/docker --format docker
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
