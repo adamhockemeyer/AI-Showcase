@@ -15,7 +15,7 @@ export async function continueConversation(input: string) {
     const stream = createStreamableValue();
     const ollama = createOllama({
         // custom settings
-        baseURL: process.env.OLLAMA_PHI3MEDIUM_URL
+        baseURL: `${process.env.OLLAMA_PHI3MEDIUM_URL}/api`
     });
     const model = ollama("phi3:medium");
 
