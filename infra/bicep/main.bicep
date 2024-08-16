@@ -131,3 +131,19 @@ module webapp_openai_auth './auth.bicep' = {
     cognitiveServicesAccountName: cognitiveServicesAccount.name
   }
 }
+
+module search './search.bicep' = {
+  name: 'search'
+  params: {
+    name: '${prefix}-search'
+    tags: commonTags
+  }
+}
+
+module storage './storage.bicep' = {
+  name: 'storage'
+  params: {
+    name: replace(replace('${prefix}storage', '-', ''), '_', '')
+    tags: commonTags
+  }
+}

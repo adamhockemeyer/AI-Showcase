@@ -1,0 +1,123 @@
+{
+  "package": {
+    "promptflow.tools.embedding.embedding": {
+      "name": "Embedding",
+      "description": "Use Open AI's embedding model to create an embedding vector representing the input text.",
+      "type": "python",
+      "module": "promptflow.tools.embedding",
+      "function": "embedding",
+      "inputs": {
+        "connection": {
+          "type": [
+            "AzureOpenAIConnection",
+            "OpenAIConnection"
+          ]
+        },
+        "deployment_name": {
+          "type": [
+            "string"
+          ],
+          "enabled_by": "connection",
+          "enabled_by_type": [
+            "AzureOpenAIConnection"
+          ],
+          "capabilities": {
+            "completion": false,
+            "chat_completion": false,
+            "embeddings": true
+          },
+          "model_list": [
+            "text-embedding-ada-002",
+            "text-search-ada-doc-001",
+            "text-search-ada-query-001"
+          ]
+        },
+        "model": {
+          "type": [
+            "string"
+          ],
+          "enabled_by": "connection",
+          "enabled_by_type": [
+            "OpenAIConnection"
+          ],
+          "enum": [
+            "text-embedding-ada-002",
+            "text-search-ada-doc-001",
+            "text-search-ada-query-001"
+          ],
+          "allow_manual_entry": true
+        },
+        "input": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "package": "promptflow-tools",
+      "package_version": "1.4.0"
+    }
+  },
+  "code": {
+    "chat.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ]
+        },
+        "contexts": {
+          "type": [
+            "string"
+          ]
+        },
+        "chat_history": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "chat.jinja2"
+    },
+    "azure_search.py": {
+      "type": "python",
+      "inputs": {
+        "connection": {
+          "type": [
+            "CognitiveSearchConnection"
+          ]
+        },
+        "index_name": {
+          "type": [
+            "string"
+          ]
+        },
+        "vectorQuery": {
+          "type": [
+            "list"
+          ]
+        },
+        "maxResults": {
+          "type": [
+            "int"
+          ],
+          "default": "5"
+        }
+      },
+      "source": "azure_search.py",
+      "function": "get_search_results"
+    },
+    "generate_prompt_context_from_search_result.py": {
+      "type": "python",
+      "inputs": {
+        "search_results": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "generate_prompt_context_from_search_result.py",
+      "function": "generate_prompt_context_from_search_result"
+    }
+  }
+}
