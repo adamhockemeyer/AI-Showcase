@@ -98,7 +98,11 @@ module frontendApp 'container-app.bicep' = {
       }
       {
         name: 'ollama-phi3medium-url'
-        value: phi3mediumApp.outputs.fqdn
+        value: 'https://${phi3mediumApp.outputs.fqdn}'
+      }
+      {
+        name: 'promptflow-basic-rag-url'
+        value: 'https://${promptflowBasicRagApp.outputs.fqdn}'
       }
     ]
     containerEnvironmentVariables: [
@@ -117,6 +121,10 @@ module frontendApp 'container-app.bicep' = {
       {
         name: 'OLLAMA_PHI3MEDIUM_URL'
         secretRef: 'ollama-phi3medium-url'
+      }
+      {
+        name: 'PROMPTFLOW_BASIC_RAG_URL'
+        secretRef: 'promptflow-basic-rag-url'
       }
     ]
   }
@@ -145,5 +153,46 @@ module storage './storage.bicep' = {
   params: {
     name: replace(replace('${prefix}storage', '-', ''), '_', '')
     tags: commonTags
+  }
+}
+
+
+module promptflowBasicRagApp 'container-app.bicep' = {
+  name: 'promptflow-basic-rag-container-app'
+  dependsOn: [
+    search
+  ]
+  params: {
+    name: 'promptflow-basic-rag'
+    tags: commonTags
+    managedEnvironmentId: containerAppsEnvironment.outputs.containerAppsEnvironmentResourceId
+    workloadProfileName: containerAppsEnvironment.outputs.consumptionWorkloadProfileName
+    containerImage: 'ghcr.io/adamhockemeyer/ai-showcase-promptflowbasicrag:adam-dev'
+    containerName: 'promptflow-basic-rag'
+    containerTargetPort: 8080
+    containerMinReplicas: 1
+    containerMaxRepliacs: 3
+    containerResourcesCPU: '1'
+    containerResourcesMemory: '2Gi'
+    secrets: [
+      {
+        name: 'ai-search-connection-api-key'
+        value: 'searchservicekey'
+      }
+      {
+        name: 'open-ai-connection-api-key'
+        value: cognitiveServicesAccount.listKeys().key1
+      }
+    ]
+    containerEnvironmentVariables: [
+      {
+        name: 'AI_SEARCH_CONNECTION_API_KEY'
+        secretRef: 'ai-search-connection-api-key'
+      }
+      {
+        name: 'OPEN_AI_CONNECTION_API_KEY'
+        secretRef: 'open-ai-connection-api-key'
+      }
+    ]
   }
 }
