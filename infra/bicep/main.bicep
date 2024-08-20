@@ -156,7 +156,6 @@ module storage './storage.bicep' = {
   }
 }
 
-
 module promptflowBasicRagApp 'container-app.bicep' = {
   name: 'promptflow-basic-rag-container-app'
   dependsOn: [
@@ -179,16 +178,23 @@ module promptflowBasicRagApp 'container-app.bicep' = {
         name: 'open-ai-connection-api-key'
         value: cognitiveServicesAccount.listKeys().key1
       }
+      {
+        name: 'azure-search-endpoint'
+        value: search.outputs.endpoint
+      }
     ]
     containerEnvironmentVariables: [
       {
         name: 'OPEN_AI_CONNECTION_API_KEY'
         secretRef: 'open-ai-connection-api-key'
       }
+      {
+        name: 'AZURE_SEARCH_ENDPOINT'
+        secretRef: 'azure-search-endpoint'
+      }
     ]
   }
 }
-
 
 module searchRoleUser 'role.bicep' = {
   name: 'search-role-user'
