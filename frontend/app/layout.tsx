@@ -76,12 +76,12 @@ export default function RootLayout({
                   <span>Summarization</span>
                 </Link>
                 <Link
-                  href="#"
+                  href="/promptflow-basic-rag"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <WorkflowIcon className="w-5 h-5" />
-                  <span>Prompt Flow</span>
+                  <span>Prompt Flow RAG</span>
                 </Link>
                 <Link
                   href="#"

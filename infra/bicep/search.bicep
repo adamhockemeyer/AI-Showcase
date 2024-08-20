@@ -1,9 +1,7 @@
-
 param name string
 param tags object = {}
 
-
-resource aisearch'Microsoft.Search/searchServices@2024-06-01-preview' = {
+resource aisearch 'Microsoft.Search/searchServices@2024-06-01-preview' = {
   name: name
   location: resourceGroup().location
   tags: tags
@@ -18,7 +16,7 @@ resource aisearch'Microsoft.Search/searchServices@2024-06-01-preview' = {
     }
     disableLocalAuth: false
     authOptions: {
-      apiKeyOnly: {}
+      aadOrApiKey: {}
     }
     disabledDataExfiltrationOptions: []
     semanticSearch: 'free'
@@ -30,3 +28,7 @@ resource aisearch'Microsoft.Search/searchServices@2024-06-01-preview' = {
     type: 'SystemAssigned'
   }
 }
+
+output id string = aisearch.id
+output endpoint string = 'https://${name}.search.windows.net/'
+output name string = aisearch.name

@@ -3,19 +3,19 @@
         "azure_search.py": {
             "type": "python",
             "inputs": {
-                "connection": {
-                    "type": [
-                        "CognitiveSearchConnection"
-                    ]
-                },
                 "index_name": {
                     "type": [
                         "string"
                     ]
                 },
-                "vectorQuery": {
+                "embedding": {
                     "type": [
-                        "list"
+                        "object"
+                    ]
+                },
+                "search": {
+                    "type": [
+                        "CognitiveSearchConnection"
                     ]
                 },
                 "maxResults": {

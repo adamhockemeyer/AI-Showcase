@@ -98,7 +98,11 @@ module frontendApp 'container-app.bicep' = {
       }
       {
         name: 'ollama-phi3medium-url'
-        value: phi3mediumApp.outputs.fqdn
+        value: 'https://${phi3mediumApp.outputs.fqdn}'
+      }
+      {
+        name: 'promptflow-basic-rag-url'
+        value: 'https://${promptflowBasicRagApp.outputs.fqdn}'
       }
     ]
     containerEnvironmentVariables: [
@@ -117,6 +121,10 @@ module frontendApp 'container-app.bicep' = {
       {
         name: 'OLLAMA_PHI3MEDIUM_URL'
         secretRef: 'ollama-phi3medium-url'
+      }
+      {
+        name: 'PROMPTFLOW_BASIC_RAG_URL'
+        secretRef: 'promptflow-basic-rag-url'
       }
     ]
   }
@@ -145,5 +153,66 @@ module storage './storage.bicep' = {
   params: {
     name: replace(replace('${prefix}storage', '-', ''), '_', '')
     tags: commonTags
+  }
+}
+
+
+module promptflowBasicRagApp 'container-app.bicep' = {
+  name: 'promptflow-basic-rag-container-app'
+  dependsOn: [
+    search
+  ]
+  params: {
+    name: 'promptflow-basic-rag'
+    tags: commonTags
+    managedEnvironmentId: containerAppsEnvironment.outputs.containerAppsEnvironmentResourceId
+    workloadProfileName: containerAppsEnvironment.outputs.consumptionWorkloadProfileName
+    containerImage: 'ghcr.io/adamhockemeyer/ai-showcase-promptflowbasicrag:adam-dev'
+    containerName: 'promptflow-basic-rag'
+    containerTargetPort: 8080
+    containerMinReplicas: 1
+    containerMaxRepliacs: 3
+    containerResourcesCPU: '1'
+    containerResourcesMemory: '2Gi'
+    secrets: [
+      {
+        name: 'open-ai-connection-api-key'
+        value: cognitiveServicesAccount.listKeys().key1
+      }
+    ]
+    containerEnvironmentVariables: [
+      {
+        name: 'OPEN_AI_CONNECTION_API_KEY'
+        secretRef: 'open-ai-connection-api-key'
+      }
+    ]
+  }
+}
+
+
+module searchRoleUser 'role.bicep' = {
+  name: 'search-role-user'
+  params: {
+    principalId: promptflowBasicRagApp.outputs.principalId
+    roleDefinitionId: '1407120a-92aa-4202-b7e9-c0e197c71c8f'
+    principalType: 'ServicePrincipal'
+  }
+}
+
+module searchContribRoleUser 'role.bicep' = {
+  name: 'search-contrib-role-user'
+  params: {
+    principalId: promptflowBasicRagApp.outputs.principalId
+    roleDefinitionId: '8ebe5a00-799e-43f5-93ac-243d3dce84a7'
+    principalType: 'ServicePrincipal'
+  }
+}
+
+module searchSvcContribRoleUser 'role.bicep' = {
+  name: 'search-svccontrib-role-user'
+  params: {
+    principalId: promptflowBasicRagApp.outputs.principalId
+    roleDefinitionId: '7ca78c08-252a-4471-8644-bb5ff32d4ba0'
+    principalType: 'ServicePrincipal'
   }
 }

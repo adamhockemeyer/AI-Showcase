@@ -31,9 +31,9 @@ nodes:
     type: code
     path: azure_search.py
   inputs:
-    connection: ai_search_connection
     index_name: vector-1723820968453
-    vectorQuery: ${embed_the_question.output}
+    embedding: ${embed_the_question.output}
+    search: ai_search_connection
 - name: generate_prompt_from_search_results
   type: python
   source:
