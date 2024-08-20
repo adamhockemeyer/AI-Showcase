@@ -1,4 +1,4 @@
-.env
+.env*.local
 __pycache__/
 .promptflow/*
 !.promptflow/flow.tools.json

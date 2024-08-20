@@ -13,11 +13,6 @@
                         "object"
                     ]
                 },
-                "search": {
-                    "type": [
-                        "CognitiveSearchConnection"
-                    ]
-                },
                 "maxResults": {
                     "type": [
                         "int"

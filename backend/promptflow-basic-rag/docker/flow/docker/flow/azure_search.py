@@ -1,3 +1,8 @@
+import os
+# set environment variables before importing any other code
+from dotenv import load_dotenv
+load_dotenv('.env.local')
+load_dotenv()
 import requests
 import json
 import logging
@@ -14,10 +19,10 @@ logging.basicConfig(level=logging.INFO)
 
 
 @tool
-def get_search_results(index_name: str, embedding: List[float], search: CognitiveSearchConnection,   maxResults: int = 5) -> str:
+def get_search_results(index_name: str, embedding: List[float], maxResults: int = 5) -> str:
 
 
-    search_client = SearchClient(endpoint=search.api_base,
+    search_client = SearchClient(endpoint=os.environ["AZURE_SEARCH_ENDPOINT"],
                                 index_name=index_name,
                                 credential=DefaultAzureCredential())
     
