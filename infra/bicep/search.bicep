@@ -16,7 +16,7 @@ resource aisearch 'Microsoft.Search/searchServices@2024-06-01-preview' = {
     }
     disableLocalAuth: false
     authOptions: {
-      apiKeyOnly: {}
+      aadOrApiKey: {}
     }
     disabledDataExfiltrationOptions: []
     semanticSearch: 'free'

@@ -8,7 +8,7 @@ def generate_prompt_context_from_search_result(search_results: List[dict]) -> st
     
     retrieved_docs = []
 
-    for result in search_results["value"]:
+    for result in search_results:
         retrieved_docs.append({"Content": result["chunk"], "Source": result["title"]})
 
 

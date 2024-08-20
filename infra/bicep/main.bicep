@@ -176,23 +176,43 @@ module promptflowBasicRagApp 'container-app.bicep' = {
     containerResourcesMemory: '2Gi'
     secrets: [
       {
-        name: 'ai-search-connection-api-key'
-        value: 'searchservicekey'
-      }
-      {
         name: 'open-ai-connection-api-key'
         value: cognitiveServicesAccount.listKeys().key1
       }
     ]
     containerEnvironmentVariables: [
       {
-        name: 'AI_SEARCH_CONNECTION_API_KEY'
-        secretRef: 'ai-search-connection-api-key'
-      }
-      {
         name: 'OPEN_AI_CONNECTION_API_KEY'
         secretRef: 'open-ai-connection-api-key'
       }
     ]
+  }
+}
+
+
+module searchRoleUser 'role.bicep' = {
+  name: 'search-role-user'
+  params: {
+    principalId: promptflowBasicRagApp.outputs.principalId
+    roleDefinitionId: '1407120a-92aa-4202-b7e9-c0e197c71c8f'
+    principalType: 'ServicePrincipal'
+  }
+}
+
+module searchContribRoleUser 'role.bicep' = {
+  name: 'search-contrib-role-user'
+  params: {
+    principalId: promptflowBasicRagApp.outputs.principalId
+    roleDefinitionId: '8ebe5a00-799e-43f5-93ac-243d3dce84a7'
+    principalType: 'ServicePrincipal'
+  }
+}
+
+module searchSvcContribRoleUser 'role.bicep' = {
+  name: 'search-svccontrib-role-user'
+  params: {
+    principalId: promptflowBasicRagApp.outputs.principalId
+    roleDefinitionId: '7ca78c08-252a-4471-8644-bb5ff32d4ba0'
+    principalType: 'ServicePrincipal'
   }
 }

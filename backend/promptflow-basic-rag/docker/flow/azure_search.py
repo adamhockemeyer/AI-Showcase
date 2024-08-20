@@ -1,44 +1,33 @@
 import requests
 import json
 import logging
+from typing import List
+from azure.search.documents import SearchClient
+from azure.search.documents.models import RawVectorQuery
+from azure.identity import DefaultAzureCredential, AzureCliCredential, InteractiveBrowserCredential
 from promptflow.core import tool
 from promptflow.connections import CognitiveSearchConnection
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
+
+
 @tool
-def get_search_results(connection: CognitiveSearchConnection,index_name: str, vectorQuery: list, maxResults: int = 5) -> dict:
-    # Perform search request
-    headers = {
-        "Content-Type": "application/json",
-        "api-key": connection.api_key
-    }
+def get_search_results(index_name: str, embedding: List[float], search: CognitiveSearchConnection,   maxResults: int = 5) -> str:
 
 
+    search_client = SearchClient(endpoint=search.api_base,
+                                index_name=index_name,
+                                credential=DefaultAzureCredential())
+    
 
-    # Search index and query
-    query = {
-        "count": True,
-        "select": "title, chunk, metadata_storage_path",
-        "vectorQueries": [
-            {
-                "kind": "vector",
-                "vector": vectorQuery,
-                "exhaustive": True,
-                "fields": "text_vector",
-                "k": maxResults
-            }
-        ]
-    }
+    vector_query = RawVectorQuery(vector=embedding, k=maxResults, fields="text_vector")
+    results = search_client.search(search_text="",
+            vector_queries=[vector_query],
+            select=["title", "chunk", "metadata_storage_path"])
 
+    docs = [{"title": doc["title"],  "chunk": doc["chunk"], "metadata_storage_path": doc["metadata_storage_path"]}
+          for doc in results]
 
-    url = f"{connection.api_base}/indexes/{index_name}/docs/search?api-version={connection.api_version}"
-    response = requests.post(url, headers=headers, json=query)
-    results = response.json()
-
-    # Log the count of results
-    logging.info(f"Number of results: {results.get('count', 0)}")
-
-    return results
-
+    return docs
