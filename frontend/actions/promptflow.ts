@@ -14,8 +14,6 @@ export async function pf_score(input: string) {
 
     function onParse(event: ParsedEvent | ReconnectInterval) {
         if (event.type === 'event') {
-            console.log('data: %s', event.data)
-
             stream.update(event.data);
         } else if (event.type === 'reconnect-interval') {
             console.log('We should set reconnect interval to %d milliseconds', event.value)

@@ -1,0 +1,7 @@
+promptflow
+promptflow-tools
+promptflow-devkit
+promptflow-tracing
+promptflow-azure
+azure-search-documents==11.4.0b11
+azure-identity

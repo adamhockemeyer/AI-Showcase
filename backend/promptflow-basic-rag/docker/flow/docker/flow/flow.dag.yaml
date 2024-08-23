@@ -16,42 +16,41 @@ outputs:
     reference: ${chat.output}
     is_chat_output: true
 nodes:
-- name: embed_the_question
-  type: python
-  source:
-    type: package
-    tool: promptflow.tools.embedding.embedding
-  inputs:
+  - name: embed_the_question
+    type: python
+    source:
+      type: package
+      tool: promptflow.tools.embedding.embedding
+    inputs:
+      connection: open_ai_connection
+      deployment_name: text-embedding-large
+      input: ${inputs.question}
+  - name: azure_vector_search
+    type: python
+    source:
+      type: code
+      path: azure_search.py
+    inputs:
+      index_name: vector-1723820968453
+      embedding: ${embed_the_question.output}
+  - name: generate_prompt_from_search_results
+    type: python
+    source:
+      type: code
+      path: generate_prompt_context_from_search_result.py
+    inputs:
+      search_results: ${azure_vector_search.output}
+  - name: chat
+    type: llm
+    source:
+      type: code
+      path: chat.jinja2
+    inputs:
+      deployment_name: gpt-4o
+      max_tokens: 1000
+      temperature: 0.7
+      chat_history: ${inputs.chat_history}
+      question: ${inputs.question}
+      contexts: ${generate_prompt_from_search_results.output}
     connection: open_ai_connection
-    deployment_name: text-embedding-large
-    input: ${inputs.question}
-- name: azure_vector_search
-  type: python
-  source:
-    type: code
-    path: azure_search.py
-  inputs:
-    index_name: vector-1723820968453
-    embedding: ${embed_the_question.output}
-    search: ai_search_connection
-- name: generate_prompt_from_search_results
-  type: python
-  source:
-    type: code
-    path: generate_prompt_context_from_search_result.py
-  inputs:
-    search_results: ${azure_vector_search.output}
-- name: chat
-  type: llm
-  source:
-    type: code
-    path: chat.jinja2
-  inputs:
-    deployment_name: gpt-4o
-    max_tokens: 1000
-    temperature: 0.7
-    chat_history: ${inputs.chat_history}
-    question: ${inputs.question}
-    contexts: ${generate_prompt_from_search_results.output}
-  connection: open_ai_connection
-  api: chat
+    api: chat
