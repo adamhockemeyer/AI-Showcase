@@ -60,7 +60,6 @@ export default function Component() {
 
                 let updatedChatResponses = ""; // Temporary variable to hold new responses
                 for await (const delta of readStreamableValue(output)) {
-                    console.log('delta:', delta);
                     if (delta !== undefined && delta.length > 0) {
                         const answer = extractAnswer(delta);
                         updatedChatResponses += answer; // Concatenate new response
@@ -72,8 +71,6 @@ export default function Component() {
                                 index === newEntryIndex ? { ...item, bot: updatedChatResponses } : item
                             )
                         );
-
-
                     }
                 }
             }
@@ -98,7 +95,7 @@ export default function Component() {
                     </p>
 
                     <div className="mt-4">
-                        <div className="grid grid-cols-1 gap-6 overflow-auto h-full max-h-96">
+                        <div className="grid grid-cols-1 gap-6 overflow-auto h-full">
                             {chatHistory.map((chat, index) => (
                                 <div key={index} className="bg-white dark:bg-gray-150 rounded-lg shadow-md p-6">
                                     <div className="flex items-start gap-4 justify-start p-6">
@@ -128,7 +125,7 @@ export default function Component() {
                             <div ref={chatEndRef} />
                         </div>
                     </div>
-
+                    <div ref={chatEndRef} />
                     <div className="relative">
                         <input
                             value={chatInput}
@@ -156,6 +153,29 @@ export default function Component() {
                         </button>
                     </div>
                 </div>
+            </div>
+            <div className=' px-4 sm:px-6 lg:px-8 pt-12 text-center'>
+                <p className="text-lg text-secondary-foreground mb-8">
+                    Try an example or ask a question to get started:
+                </p>
+            </div>
+            {/* Examples Section */}
+            <div className="flex justify-around mt-4">
+                <button
+                    className="bg-gray-950 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                    onClick={() => setChatInput('How many shares of Microsoft are outstanding?')}>
+                    How many shares of Microsoft are outstanding?
+                </button>
+                <button
+                    className="bg-gray-950 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                    onClick={() => setChatInput('What are the core issues with the IaaS agreements?')}>
+                    What are the core issues with the IaaS agreements?
+                </button>
+                <button
+                    className="bg-gray-950 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                    onClick={() => setChatInput('Summarize the OEM Filters Master Agreement.')}>
+                    Summarize the OEM Filters Master Agreement.
+                </button>
             </div>
             <div className="bg-background text-foreground p-4 text-center">
                 <p className="text-sm text-muted-foreground">Powered by Azure OpenAI GPT-4o, Azure AI Search</p>

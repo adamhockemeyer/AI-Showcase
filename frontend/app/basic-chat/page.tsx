@@ -76,7 +76,7 @@ export default function Component() {
           </p>
 
           <div className="mt-4">
-            <div className="grid grid-cols-1 gap-6 overflow-auto h-full max-h-96">
+            <div className="grid grid-cols-1 gap-6 overflow-auto h-full py-12">
               {chatHistory.map((chat, index) => (
                 <div key={index} className="bg-white dark:bg-gray-150 rounded-lg shadow-md p-6">
                   <div className="flex items-start gap-4 justify-start p-6">
@@ -103,10 +103,10 @@ export default function Component() {
                   </div>
                 </div>
               ))}
-              <div ref={chatEndRef} />
+
             </div>
           </div>
-
+          <div ref={chatEndRef} />
           <div className="relative">
             <input
               value={chatInput}
