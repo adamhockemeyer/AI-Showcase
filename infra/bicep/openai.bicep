@@ -22,7 +22,7 @@ param deployments array = [
     }
     sku: {
       name: 'Standard'
-      capacity: 20
+      capacity: 150
     }
   }
   {
