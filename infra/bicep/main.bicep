@@ -4,6 +4,7 @@ param commonTags object = {
   created_by: 'bicep'
   project: 'AI Showcase'
 }
+param apimPublisherEmail string = 'adhocke@microsoft.com'
 
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   #disable-next-line BCP334
@@ -16,6 +17,17 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
     retentionInDays: 30
   }
   tags: commonTags
+}
+
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: '${prefix}-appinsights'
+  location: region
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logAnalytics.id
+    CustomMetricsOptedInType: 'WithDimensions'
+  }
 }
 
 resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
@@ -37,6 +49,60 @@ resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-
 module openai './openai.bicep' = {
   name: 'openai'
   params: {
+    cognitiveServicesAccountName: cognitiveServicesAccount.name
+  }
+}
+
+module apim './apim.bicep' = {
+  name: 'apim'
+  params: {
+    location: region
+    name: 'apim-${prefix}'
+    publisherEmail: apimPublisherEmail
+    publisherName: prefix
+    appInsightsName: applicationInsights.name
+  }
+}
+
+
+
+module apimBackendsAoai './apim-backends-aoai.bicep' = {
+  name: 'apim-backends-aoai'
+  params: {
+    apimName: apim.outputs.apimName
+    backendPoolName: 'aoaipool'
+    backendNames: [
+      cognitiveServicesAccount.name
+    ]
+  }
+}
+
+module apimApisOpenaiApi './apim-apis/openai-api.bicep' = {
+  name: 'apim-apis-openai-api'
+  params: {
+    serviceName: apim.outputs.apimName
+    endpoint: '${cognitiveServicesAccount.name}.openai.azure.com'
+    backendName: apimBackendsAoai.outputs.backendPoolName
+    apimLoggerName: apim.outputs.apimLoggerName
+  }
+}
+
+resource workbook 'Microsoft.Insights/workbooks@2022-04-01' = {
+  name: guid(resourceGroup().id, 'openai-wb')
+  location: region
+  kind: 'shared'
+  properties: {
+    displayName: 'OpenAI Usage Analysis Workbook'
+    serializedData: loadTextContent('./openai-usage-analysis-workbook.json')
+    sourceId: applicationInsights.id
+    category: 'OpenAI'
+  }
+}
+
+module apim_openai_auth './auth.bicep' = {
+  name: 'apim-openai-auth'
+  params: {
+    webAppManagedIdentityPrincipalId: apim.outputs.principalId
     cognitiveServicesAccountName: cognitiveServicesAccount.name
   }
 }
