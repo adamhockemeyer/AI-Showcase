@@ -30,7 +30,7 @@ export default function Home() {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      {/* <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Code Generation</CardTitle>
           <CodeIcon className="w-6 h-6 text-gray-600" />
@@ -44,8 +44,8 @@ export default function Home() {
             <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
-      </Card>
-      <Card>
+      </Card> */}
+      {/* <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Translation</CardTitle>
           <LanguagesIcon className="w-6 h-6 text-gray-600" />
@@ -56,8 +56,8 @@ export default function Home() {
             <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
-      </Card>
-      <Card>
+      </Card> */}
+      {/* <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Summarization</CardTitle>
           <ViewIcon className="w-6 h-6 text-gray-600" />
@@ -68,7 +68,7 @@ export default function Home() {
             <Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
       <Card>
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Model Comparison</CardTitle>
@@ -78,6 +78,18 @@ export default function Home() {
           <p>Compare various LLM models output to questions.</p>
           <div className="mt-4">
             <Link href='/model-comparison'><Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button></Link>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="flex items-center justify-between">
+          <CardTitle>Chat with Website</CardTitle>
+          <BadgeAlertIcon className="w-6 h-6 text-gray-600" />
+        </CardHeader>
+        <CardContent>
+          <p>Uses function calling and Bing search API to answer your questions on a website.</p>
+          <div className="mt-4">
+            <Link href='/chat-with-website'><Button className="bg-gray-800 dark:bg-gray-800 hover:dark:bg-gray-400 hover:bg-gray-400 text-gray-100 dark:text-gray-100">Try Demo</Button></Link>
           </div>
         </CardContent>
       </Card>

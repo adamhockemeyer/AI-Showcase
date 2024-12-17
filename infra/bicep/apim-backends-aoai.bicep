@@ -57,37 +57,6 @@ resource aoailbpool 'Microsoft.ApiManagement/service/backends@2023-09-01-preview
         }
       ]
     }
-    // services: [
-    //   {
-    //     id: '/backends/${backendNames[0]}'
-    //     priority: 1
-    //     weight: 1
-    //   }
-    //   {
-    //     id: '/backends/${backendNames[1]}'
-    //     priority: 2
-    //     weight: 1
-    //   }
-    //   {
-    //     id: '/backends/${backendNames[2]}'
-    //     priority: 2
-    //     weight: 1
-    //   }
-    // {
-    //   id: '/backends/${backendNames[3]}'
-    //   priority: 3
-    //   weight: 1
-    // }
-    // {
-    //   id: '/backends/${backendNames[4]}'
-    //   priority: 3
-    //   weight: 1
-    // }
-    // {
-    //   id: '/backends/${backendNames[5]}'
-    //   priority: 3
-    //   weight: 1
-    // }
   }
   dependsOn: backends
 }

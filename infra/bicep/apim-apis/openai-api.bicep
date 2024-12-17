@@ -8,19 +8,21 @@ resource apimService 'Microsoft.ApiManagement/service@2023-09-01-preview' existi
   name: serviceName
 }
 
-var aoaiSwagger = loadTextContent('./azure-openai-2024-06-01.json')
-var aoaiSwaggerUrl = replace(aoaiSwagger, 'https://{endpoint}/openai', 'https://${endpoint}/openai')
-var aoaiSwaggerDefault = replace(aoaiSwaggerUrl, 'your-resource-name.openai.azure.com', '${serviceName}')
+
+var openApiSpecUrl = 'https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference/stable/2024-10-21/inference.json'
+// var aoaiSwagger = loadTextContent('./azure-openai-2024-10-21.json')
+// var aoaiSwaggerUrl = replace(aoaiSwagger, 'https://{endpoint}/openai', 'https://${endpoint}/openai')
+// var aoaiSwaggerDefault = replace(aoaiSwaggerUrl, 'your-resource-name.openai.azure.com', '${serviceName}')
 
 resource apiDefinition 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = {
   name: 'azure-openai'
   parent: apimService
   properties: {
     path: 'openai'
-    description: 'See https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference/stable/2024-06-01/inference.json'
+    description: 'See https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference/stable/2024-10-21/inference.json'
     displayName: 'azure-openai'
-    format: 'openapi+json'
-    value: aoaiSwaggerDefault
+    format: 'openapi-link'
+    value: openApiSpecUrl
     subscriptionRequired: true
     type: 'http'
     protocols: ['https']
@@ -56,6 +58,14 @@ var policy3 = '''
       </backend>
       <outbound>
         <base />
+        <emit-metric name="LLMCall" value="1" namespace="openai">
+            <dimension name="API ID" />
+            <dimension name="llm-backend" value="@(context.Request.Url.Scheme + "://" + context.Request.Url.Host + context.Api.Path)" />
+            <dimension name="llm-region" value="@(context.Response.Headers.GetValueOrDefault("x-ms-region", ""))" />
+        </emit-metric>
+        <set-header name="x-backend" exists-action="override">
+            <value>@(context.Request.Url.Scheme + "://" + context.Request.Url.Host + context.Api.Path)</value>
+        </set-header>
       </outbound>
       <on-error>
         <base />

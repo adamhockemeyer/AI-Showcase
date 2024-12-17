@@ -37,18 +37,18 @@ param deployments array = [
       capacity: 20
     }
   }
-  {
-    name: 'text-embedding-small'
-    model: {
-      format: 'OpenAI'
-      name: 'text-embedding-3-small'
-      version: '1'
-    }
-    sku: {
-      name: 'Standard'
-      capacity: 20
-    }
-  }
+  // {
+  //   name: 'text-embedding-small'
+  //   model: {
+  //     format: 'OpenAI'
+  //     name: 'text-embedding-3-small'
+  //     version: '1'
+  //   }
+  //   sku: {
+  //     name: 'Standard'
+  //     capacity: 20
+  //   }
+  // }
   {
     name: 'dall-e-3'
     model: {

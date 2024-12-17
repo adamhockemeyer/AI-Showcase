@@ -51,30 +51,30 @@ export default function RootLayout({
                   <ImageIcon className="w-5 h-5" />
                   <span>Image Generation</span>
                 </Link>
-                <Link
+                {/* <Link
                   href="#"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <CodeIcon className="w-5 h-5" />
                   <span>Code Generation</span>
-                </Link>
-                <Link
+                </Link> */}
+                {/* <Link
                   href="#"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ImportIcon className="w-5 h-5" />
                   <span>Translation</span>
-                </Link>
-                <Link
+                </Link> */}
+                {/* <Link
                   href="#"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ViewIcon className="w-5 h-5" />
                   <span>Summarization</span>
-                </Link>
+                </Link> */}
                 <Link
                   href="/promptflow-basic-rag"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
@@ -83,14 +83,14 @@ export default function RootLayout({
                   <WorkflowIcon className="w-5 h-5" />
                   <span>Prompt Flow RAG</span>
                 </Link>
-                <Link
+                {/* <Link
                   href="#"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
                 >
                   <ShellIcon className="w-5 h-5" />
                   <span>Semantic Kernel</span>
-                </Link>
+                </Link> */}
                 <Link
                   href="/model-comparison"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
@@ -104,6 +104,14 @@ export default function RootLayout({
               <h4 className="text-sm font-semibold">Use Cases</h4>
               <nav className="flex flex-col gap-1">
                 <Link
+                  href="/chat-with-website"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
+                  prefetch={false}
+                >
+                  <FileIcon className="w-5 h-5" />
+                  <span>Chat with Website</span>
+                </Link>
+                {/* <Link
                   href="#"
                   className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-800 transition-colors"
                   prefetch={false}
@@ -118,7 +126,7 @@ export default function RootLayout({
                 >
                   <PowerIcon className="w-5 h-5" />
                   <span>Help Desk Assistant</span>
-                </Link>
+                </Link> */}
               </nav>
             </div>
             <main className="flex-1 p-6 md:p-10">

@@ -30,6 +30,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
+// Azure OpenAI Account #1
 resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: '${prefix}-oai'
   location: region
@@ -53,6 +54,30 @@ module openai './openai.bicep' = {
   }
 }
 
+// Azure OpenAI Account #2
+resource cognitiveServicesAccount2 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
+  name: '${prefix}-oai2'
+  location: 'Sweden Central'
+  kind: 'OpenAI'
+  properties: {
+    customSubDomainName: '${prefix}-oai2'
+  }
+  sku: {
+    name: 'S0'
+  }
+  tags: commonTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+}
+
+module openai2 './openai.bicep' = {
+  name: 'openai2'
+  params: {
+    cognitiveServicesAccountName: cognitiveServicesAccount2.name
+  }
+}
+
 module apim './apim.bicep' = {
   name: 'apim'
   params: {
@@ -73,6 +98,7 @@ module apimBackendsAoai './apim-backends-aoai.bicep' = {
     backendPoolName: 'aoaipool'
     backendNames: [
       cognitiveServicesAccount.name
+      cognitiveServicesAccount2.name
     ]
   }
 }
@@ -104,6 +130,14 @@ module apim_openai_auth './auth.bicep' = {
   params: {
     webAppManagedIdentityPrincipalId: apim.outputs.principalId
     cognitiveServicesAccountName: cognitiveServicesAccount.name
+  }
+}
+
+module apim_openai_auth2 './auth.bicep' = {
+  name: 'apim-openai-auth2'
+  params: {
+    webAppManagedIdentityPrincipalId: apim.outputs.principalId
+    cognitiveServicesAccountName: cognitiveServicesAccount2.name
   }
 }
 
@@ -288,3 +322,21 @@ module searchSvcContribRoleUser 'role.bicep' = {
     principalType: 'ServicePrincipal'
   }
 }
+
+module maps 'maps.bicep' = {
+  name: 'maps'
+  params: {
+    name: '${prefix}-maps'
+    location: region
+    storageAccountName: storage.name
+  }
+}
+
+module apimMapsApi './apim-apis/maps-api.bicep' = {
+  name: 'apim-apis-maps-api'
+  params: {
+    serviceName: apim.outputs.apimName
+  }
+}
+
+
